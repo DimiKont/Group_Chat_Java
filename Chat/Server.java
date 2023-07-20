@@ -1,13 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
-package javaapplication10;
-
-import java.net.*;
 import java.io.*;
+import java.net.*;
 import java.util.*;
-import java.sql.*;
 
 
 public class Server
@@ -145,8 +138,8 @@ class ClientHandler implements Runnable
             // Step 3: Create a table (you can skip this step if the table already exists)
 
             // Step 4: Insert data into the table
-            /*String insertQuery = "INSERT INTO users VALUES ('John', 'xountas') , ('Jim','kont')";
-            stmt.executeUpdate(insertQuery);*/
+            String insertQuery = "INSERT INTO users VALUES ('John', 'xountas') , ('Jim','kont')";
+            stmt.executeUpdate(insertQuery);
 
             // Step 5: Retrieve data from the table
             String selectQuery = "SELECT * FROM users";
@@ -158,12 +151,9 @@ class ClientHandler implements Runnable
                 String username1 = rs.getString("username");
                 String pass = rs.getString("password");
                 System.out.println("Name: " + username1 + ", Age: " + pass);
-                System.out.println("Name: " + this.clientUsername + ", pass: " + this.clientPassword);
                 if(this.clientUsername.equals(username1) && this.clientPassword.equals(pass))
                 {
-                    System.out.println("1");
                     connected = "true";
-                    break;
                 }
             }
 
@@ -174,10 +164,9 @@ class ClientHandler implements Runnable
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         try
         {
-            System.out.println("1" + connected);
             bufferedWriter.write(connected);
             bufferedWriter.newLine();
             bufferedWriter.flush();
