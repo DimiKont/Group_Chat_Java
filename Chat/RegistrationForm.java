@@ -1,18 +1,21 @@
 //package ChatApp;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.FlowLayout;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.io.IOException;
+
 import javax.swing.*;
 
 public class RegistrationForm extends JFrame implements ActionListener
 {
-    private String choice;
-    private JLabel usernameLabel, passwordLabel, emailLabel, check;
     private JTextField uname, email;
     private JPasswordField upass;
     private JButton register;
     private JComboBox<String> chooseSex;
+    private JCheckBox showPassReg;
 
     public RegistrationForm() throws IOException
     {
@@ -24,12 +27,15 @@ public class RegistrationForm extends JFrame implements ActionListener
     {
         setLayout(new FlowLayout());
 
-        usernameLabel = new JLabel("Username ");
-        passwordLabel = new JLabel("Password ");
-        emailLabel = new JLabel("Email          "); // 10 spaces to align
+        JLabel usernameLabel = new JLabel("Username ");
+        JLabel passwordLabel = new JLabel("Password ");
+        JLabel emailLabel = new JLabel("Email          "); // 10 spaces to align
 
-        check = new JLabel("Already a user?");
-        check.setFont(new Font("JetBrains Mono", Font.BOLD, 13));
+//        check = new JLabel("Already a user?");
+//        check.setFont(new Font("JetBrains Mono", Font.BOLD, 13));
+
+        showPassReg = new JCheckBox("Show Password");
+        showPassReg.setFocusable(false);
 
         String [] names = {"Male", "Female", "Other"};
         chooseSex = new JComboBox<>(names);
@@ -37,7 +43,6 @@ public class RegistrationForm extends JFrame implements ActionListener
         uname = new JTextField(12);
         email = new JTextField(12);
         upass = new JPasswordField(12);
-
 
         register = new JButton("Register");
 
@@ -49,10 +54,12 @@ public class RegistrationForm extends JFrame implements ActionListener
         add(passwordLabel);
         add(upass);
         add(chooseSex);
+        add(showPassReg);
         add(register);
-        add(check);
+//        add(check);
 
         register.addActionListener(this);
+        showPassReg.addActionListener(this);
         chooseSex.addActionListener(this);
 
         pack();
@@ -63,92 +70,20 @@ public class RegistrationForm extends JFrame implements ActionListener
         setVisible(true);
     }
 
-//    public void register()
-//    {
-//        try
-//        {
-////            username = uname.getText();
-////            password = upass.getText();
-//
-//            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "root");
-//
-//            // using a string for the SQL query
-//            String checkQuery = "SELECT * FROM users WHERE username = ? AND password = ?";
-//
-//            PreparedStatement preparedStatement = connection.prepareStatement(checkQuery);
-//            preparedStatement.setString(1, uname.getText());
-//            preparedStatement.setString(2, upass.getText());
-//            preparedStatement.setString(3, email.getText());
-//            preparedStatement.setString(4, );
-//
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//
-//            if(resultSet.isBeforeFirst())
-//            {
-//                JOptionPane.showMessageDialog(this, "This user already exists");
-//                // System.out.println("User with username " + username + " already exists");
-//            }
-//            else
-//            {
-//                // If no matching row is found, the username and password combination is not in the database
-//                // Proceed with registration.
-//
-//                // In the insertQuery, we don't need to pass in the user_id,
-//                // because it is an AUTO INCREMENT element in the SQL.
-//                // So each user will have a unique ID that is assigned by SQL.
-//                String insertQuery = "INSERT INTO users (username, password, email, sex) VALUES (?, ?, ?, ?)";
-//                PreparedStatement register = connection.prepareStatement(insertQuery);
-//                register.setString(1, username);
-//                register.setString(2, password);
-//                register.setString(3, email);
-//                int rowsInserted = register.executeUpdate();
-//
-//                if (rowsInserted > 0) {
-//                    System.out.println("Registration successful!");
-//                } else {
-//                    System.out.println("Registration failed!");
-//                }
-//                register.close();
-//            }
-//
-//            resultSet.close();
-//            preparedStatement.close();
-//            connection.close();
-//        }
-//        catch (SQLIntegrityConstraintViolationException key)
-//        {
-//            System.out.println("Username already exists. Registration failed!");
-//        }
-//        catch (Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
-
     @Override
     public void actionPerformed(ActionEvent e)
     {
         if(e.getSource() == register)
         {
-            if(chooseSex.getItemAt(0).equals("Male"))
-            {
-                choice = "Male";
-            }
-            else if(chooseSex.getItemAt(1).equals("Female"))
-            {
-                choice = "Female";
-            }
-            else if(chooseSex.getItemAt(2).equals("Other"))
-            {
-                choice = "Other";
-            }
+            String choice = (String) chooseSex.getSelectedItem();
 
 //            if (!uname.getText().isEmpty() && !upass.getText().isEmpty() && email.getText().isEmpty())
             new Database(uname.getText(), upass.getText(), email.getText(), choice);
         }
-    }
 
-    public static void main(String[] args) throws IOException {
-        new RegistrationForm();
+        if(showPassReg.isSelected())
+            upass.setEchoChar((char)0);
+        else
+            upass.setEchoChar('*');
     }
 }

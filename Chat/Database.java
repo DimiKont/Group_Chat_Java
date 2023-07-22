@@ -1,14 +1,24 @@
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
+
 public class Database
 {
     public Database(String username, String password, String email, String sex)
+    {
+        register(username, password, email, sex);
+    }
+
+    private void register(String username, String password, String email, String sex)
     {
         try
         {
 //            username = uname.getText();
 //            password = upass.getText();
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "root");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chat", "root", "root");
 
             // using a string for the SQL query
             String checkQuery = "SELECT * FROM users WHERE username = ? AND password = ?";
@@ -35,19 +45,19 @@ public class Database
                 // because it is an AUTO INCREMENT element in the SQL.
                 // So each user will have a unique ID that is assigned by SQL.
                 String insertQuery = "INSERT INTO users (username, password, email, sex) VALUES (?, ?, ?, ?)";
-                PreparedStatement register = connection.prepareStatement(insertQuery);
-                register.setString(1, username);
-                register.setString(2, password);
-                register.setString(3, email);
-                register.setString(4, sex);
-                int rowsInserted = register.executeUpdate();
+                PreparedStatement insert = connection.prepareStatement(insertQuery);
+                insert.setString(1, username);
+                insert.setString(2, password);
+                insert.setString(3, email);
+                insert.setString(4, sex);
+                int rowsInserted = insert.executeUpdate();
 
                 if (rowsInserted > 0) {
                     System.out.println("Registration successful!");
                 } else {
                     System.out.println("Registration failed!");
                 }
-                register.close();
+                insert.close();
             }
 
             resultSet.close();
@@ -63,6 +73,4 @@ public class Database
             e.printStackTrace();
         }
     }
-
-
 }
