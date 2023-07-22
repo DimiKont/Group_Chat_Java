@@ -1,4 +1,4 @@
-//package ChatApp;
+package ChatApp;//package ChatApp;
 
 import java.awt.FlowLayout;
 

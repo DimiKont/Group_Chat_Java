@@ -1,4 +1,4 @@
-//package ChatApp;
+package ChatApp;//package ChatApp;
 
 //import javax.swing.*;
 import java.io.IOException;
@@ -8,12 +8,12 @@ import java.net.Socket;
 //import java.sql.*;
 
 
-// I haven't found a way yet to host the server in VSCode, so its only possible in IntelliJ or NetBeans for now.
+// I haven't found a way yet to host the server in VSCode, so it's only possible in IntelliJ or NetBeans for now.
 
 public class Server
 {
     private ServerSocket serverSocket;
-    private String clientpass;
+    // private String clientpass;
 
     public Server(ServerSocket serverSocket)
     {
@@ -50,23 +50,23 @@ public class Server
         }
     }
 
-    /**
-     * Closes the server socket
-     */
-    public void closeServerSocket()
-    {
-        try
-        {
-            if(serverSocket != null)
-            {
-                serverSocket.close();
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
+//    /**
+//     * Closes the server socket
+//     */
+//    public void closeServerSocket()
+//    {
+//        try
+//        {
+//            if(serverSocket != null)
+//            {
+//                serverSocket.close();
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static void main (String [] args) throws IOException
     {

@@ -1,3 +1,5 @@
+package ChatApp;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -22,7 +24,7 @@ class ClientHandler implements Runnable
     private String clientUsername, clientPassword,  connected = "false";
 
     public String getName() {return clientUsername;}
-    public String getPassword() {return clientPassword;}
+//    public String getPassword() {return clientPassword;}
 
     /**
      * Constructor for the ClientHandler class that is used to handle the clients
@@ -142,7 +144,7 @@ class ClientHandler implements Runnable
     public void removeClient()
     {
         clients.remove(this);
-        broadcastMessage("Server : " + clientUsername + " has left the chat.");;
+        broadcastMessage("Server : " + clientUsername + " has left the chat.");
     }
 
     /**

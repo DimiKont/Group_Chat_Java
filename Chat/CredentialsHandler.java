@@ -1,3 +1,5 @@
+package ChatApp;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;

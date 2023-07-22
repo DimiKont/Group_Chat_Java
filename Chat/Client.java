@@ -1,4 +1,4 @@
-//package ChatApp;
+package ChatApp;//package ChatApp;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,13 +28,12 @@ import java.net.Socket;
 
 public class Client extends JFrame implements ActionListener, MouseListener, KeyListener
 {
-    static final String msgPhrase = "Type your message";
     public int count = 0;
 
     // Networking
     private Socket socket;
     private BufferedReader bufferedReader;
-    private BufferedWriter bufferedWriter, bw;
+    private BufferedWriter bufferedWriter;
     private String username, password, feedback;
 
     // GUI Components
@@ -64,7 +63,8 @@ public class Client extends JFrame implements ActionListener, MouseListener, Key
     public Client(String username, String password, String email, String sex)
     {
         try {
-            bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
             bw.write(username);
             bw.newLine();
@@ -131,7 +131,7 @@ public class Client extends JFrame implements ActionListener, MouseListener, Key
         message.addMouseListener(this);
         message.addKeyListener(this);
 
-        pack(); // needed in order to show the windows realitively centered
+        pack(); // needed in order to show the windows relatively centered
         setLocationRelativeTo(null);
         setResizable(false);
         setSize(500, 500); // set size of frame
@@ -198,6 +198,8 @@ public class Client extends JFrame implements ActionListener, MouseListener, Key
      */
     public void ListenForMessage()
     {
+        // Instead of writing new Runnable() {@Override public void run etc.},
+        // we can just do () -> {The code}
         Runnable runnable1 = new Runnable()
         {
             @Override
@@ -228,9 +230,9 @@ public class Client extends JFrame implements ActionListener, MouseListener, Key
     /**
      * Almost identical as the Server's closeEverything method that closes the bufferedReader, bufferedWriter, and the socket
      *
-     * @param socket
-     * @param bufferedReader
-     * @param bufferedWriter
+     * @param socket The socket that is used for the closure of the connection
+     * @param bufferedReader BufferedReader that is used to read sent messages from other Clients
+     * @param bufferedWriter BufferedReader that is used send messages to other Clients that are connected
      */
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter)
     {
@@ -257,7 +259,7 @@ public class Client extends JFrame implements ActionListener, MouseListener, Key
         }
     }
 
-    // Mouse Listeners for some extra stuff that i will probably use later on
+    // Mouse Listeners for some extra stuff that I will probably use later on
     @Override
     public void mouseClicked(MouseEvent e)
     {
@@ -299,7 +301,7 @@ public class Client extends JFrame implements ActionListener, MouseListener, Key
                 bufferedWriter.flush();
                 message.setText("");
             }
-            catch(IOException actionlistener)
+            catch(IOException actionListener)
             {
                 closeEverything(socket, bufferedReader, bufferedWriter);
             }
@@ -315,8 +317,8 @@ public class Client extends JFrame implements ActionListener, MouseListener, Key
     /**
      * Calls the CredentialsHandler constructor, that actually is used for some GUI.
      *
-     * @param args
-     * @throws IOException
+     * @param args Arguments passed into the program by the command line
+     * @throws IOException Throws the IOException instead of having to try/catch it in the program
      */
     public static void main(String[] args) throws IOException
     {
